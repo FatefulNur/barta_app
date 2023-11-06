@@ -14,9 +14,9 @@ class ProfileController extends Controller
 {
     public function index(): View
     {
-        $fullName = Str::title(
+        $fullName = Str::of(
             Auth::user()->first_name . " " . Auth::user()->last_name
-        );
+        )->title();
         $bio = Auth::user()->bio ?? "Less Talk, More Code 💻";
 
         return view("profile.index", compact("fullName", "bio"));

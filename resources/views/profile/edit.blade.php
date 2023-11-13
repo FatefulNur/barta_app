@@ -53,30 +53,29 @@
 
                     <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div class="sm:col-span-3">
-                            <label for="first_name" class="block text-sm font-medium leading-6 text-gray-900">First
-                                name</label>
+                            <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Full
+                                Name</label>
                             <div class="mt-2">
-                                <input type="text" name="first_name" id="first_name" autocomplete="given-name"
-                                    value="{{ old('first_name', $first_name) }}"
-                                    class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('first_name')
+                                <input type="text" name="name" id="name" autocomplete="given-name"
+                                    value="{{ old('name', $name) }}"
+                                    class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('name')
                                         !border border-red-500
                                     @enderror" />
-                                @error('first_name')
+                                @error('name')
                                     <span class="text-sm text-red-600 font-semibold">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         <div class="sm:col-span-3">
-                            <label for="last_name" class="block text-sm font-medium leading-6 text-gray-900">Last
-                                name</label>
+                            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                             <div class="mt-2">
-                                <input type="text" name="last_name" id="last_name"
-                                    value="{{ old('last_name', $last_name) }}" autocomplete="family-name"
-                                    class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('last_name')
+                                <input type="text" name="username" id="username"
+                                    value="{{ old('username', $username) }}" autocomplete="family-name"
+                                    class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('username')
                                         !border border-red-500
                                     @enderror" />
-                                @error('last_name')
+                                @error('username')
                                     <span class="text-sm text-red-600 font-semibold">{{ $message }}</span>
                                 @enderror
                             </div>

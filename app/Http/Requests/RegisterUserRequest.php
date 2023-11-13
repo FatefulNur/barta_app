@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FullnameRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterUserRequest extends FormRequest
@@ -22,10 +23,10 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "first_name" => "required|string|max:60",
-            "last_name" => "required|string|max:60",
-            "email" => "required|email|unique:users,email",
-            "password" => "required|string|min:6|max:20"
+            "name" => ["required", new FullnameRule(), "max:100"],
+            "username" => ["required", "alpha_num:ascii", "min:3", "max:100"],
+            "email" => ["required", "email", "unique:users,email"],
+            "password" => ["required", "string", "min:6", "max:20"]
         ];
     }
 }

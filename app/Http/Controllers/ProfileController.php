@@ -14,9 +14,7 @@ class ProfileController extends Controller
 {
     public function index(): View
     {
-        $fullName = Str::of(
-            Auth::user()->first_name . " " . Auth::user()->last_name
-        )->title();
+        $fullName = Str::of(Auth::user()->name)->title();
         $bio = Auth::user()->bio ?? "Less Talk, More Code 💻";
 
         return view("profile.index", compact("fullName", "bio"));
@@ -24,12 +22,12 @@ class ProfileController extends Controller
 
     public function edit(): View
     {
-        $first_name = Auth::user()->first_name;
-        $last_name = Auth::user()->last_name;
+        $name = Auth::user()->name;
+        $username = Auth::user()->username;
         $email = Auth::user()->email;
         $bio = Auth::user()->bio ?? "Less Talk, More Code 💻";
 
-        return view("profile.edit", compact("first_name", "last_name", "email", "bio"));
+        return view("profile.edit", compact("name", "username", "email", "bio"));
     }
 
     public function update(UpdateProfileRequest $request): RedirectResponse

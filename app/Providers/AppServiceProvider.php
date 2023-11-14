@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::if("owner", function (int $id) {
+        Blade::if("author", function (int $id) {
             return auth()->user()->id === $id;
         });
     }

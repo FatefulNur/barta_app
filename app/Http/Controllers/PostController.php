@@ -86,7 +86,7 @@ class PostController extends Controller
         $query = DB::table("posts")
             ->where("uuid", $uuid);
 
-        if (!$this->isOwner($query->first()->user_id)) {
+        if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);
         }
 
@@ -105,7 +105,7 @@ class PostController extends Controller
         $query = DB::table("posts")
             ->where("uuid", $uuid);
 
-        if (!$this->isOwner($query->first()->user_id)) {
+        if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);
         }
 
@@ -132,7 +132,7 @@ class PostController extends Controller
         $query = DB::table("posts")
             ->where("uuid", $uuid);
 
-        if (!$this->isOwner($query->first()->user_id)) {
+        if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);
         }
 
@@ -141,7 +141,7 @@ class PostController extends Controller
         return to_route("posts.index")->with("success", "Post has been deleted successfully");
     }
 
-    private function isOwner(int $user): bool
+    private function isAuthor(int $user): bool
     {
         return auth()->user()->id === $user;
     }

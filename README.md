@@ -5,7 +5,7 @@ Barta is a minimal, elegant social media application with lightweight features.
 ## Installation
 Clone the repo
 ```
-    git clone https://github.com/FatefulNur/barta_app.git
+    git clone https://github.com/FatefulNur/barta_app.git --single-branch -b assignment-7
 ```
 
 ## Usage
@@ -20,10 +20,13 @@ Follow the instructions
 - Run `php artisan migrate`.
 - Run `php artisan serve`.
 - Go to http://localhost:8000/register and register new account.
-- Go to http://localhost:8000/login to login and visit your profile.
+- Go to http://localhost:8000/login to login and visit your posts.
 
 ## Project Features
-- Login
-- Registration
-- Profile
-- Edit Profile
+- **Simple Authentication**
+- **Profile**
+- **Edit Profile**
+- **Posts**
+- **Create Post**
+- **Edit Post**
+- **Delete Post**

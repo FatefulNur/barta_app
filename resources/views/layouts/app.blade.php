@@ -28,7 +28,7 @@
                 <div class="flex h-16 justify-between">
                     <div class="flex">
                         <div class="flex flex-shrink-0 items-center">
-                            <a href="{{ route('profile') }}">
+                            <a href="{{ route('posts.index') }}">
                                 <h2 class="font-bold text-2xl">Barta</h2>
                             </a>
                         </div>

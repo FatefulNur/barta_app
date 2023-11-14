@@ -292,7 +292,7 @@
             </article>
             <!-- /Barta Card -->
         @empty
-            <div class="p-3 bg-yellow-100 text-yellow-800 border border-yellow-300 text-center">No Post added yet</div>
+            <div class="p-3 bg-red-100 text-red-800 border border-red-300 text-center">No Post added yet</div>
         @endforelse
     </section>
     <!-- /Newsfeed -->

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePostRequest;
@@ -25,7 +24,7 @@ class PostController extends Controller
                 "view_count",
                 "users.name",
                 "users.username",
-                "posts.created_at"
+                "posts.created_at",
             )
             ->orderByDesc("created_at")
             ->get();
@@ -43,8 +42,8 @@ class PostController extends Controller
             [
                 "uuid" => Str::uuid(),
                 "user_id" => $request->user()->id,
-                "created_at" => now()
-            ]
+                "created_at" => now(),
+            ],
         );
 
         DB::table("posts")->insert($postData);
@@ -71,7 +70,7 @@ class PostController extends Controller
                 "view_count",
                 "users.name",
                 "users.username",
-                "posts.created_at"
+                "posts.created_at",
             )
             ->first();
 
@@ -112,15 +111,15 @@ class PostController extends Controller
         $updatedPost = array_merge(
             $request->validated(),
             [
-                "updated_at" => now()
-            ]
+                "updated_at" => now(),
+            ],
         );
 
         $query->update($updatedPost);
 
         return to_route(
             "posts.show",
-            ["post" => $uuid]
+            ["post" => $uuid],
         )->with("success", "Post has been updated successfully");
     }
 

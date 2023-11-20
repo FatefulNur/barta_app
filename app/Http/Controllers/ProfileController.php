@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
     public function index(): View
     {
-        $fullName = Str::of(Auth::user()->name)->title();
+        $fullName = str()->of(Auth::user()->name)->title();
         $bio = Auth::user()->bio ?? "Less Talk, More Code 💻";
 
         return view("profile.index", compact("fullName", "bio"));
@@ -30,7 +30,7 @@ class ProfileController extends Controller
         return view("profile.edit", compact("name", "username", "email", "bio"));
     }
 
-    public function update(UpdateProfileRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $userData = $request->validated();
 

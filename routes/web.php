@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +22,15 @@ Route::get('/', function () {
 });
 
 Route::middleware("guest")->group(function () {
-    Route::get("/register", [RegisterController::class, "index"])->name("register.index");
-    Route::post("/register", [RegisterController::class, "register"])->name("register");
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get("/login", [LoginController::class, "index"])->name("login.index");
-    Route::post("/login", [LoginController::class, "authenticate"])->name("login");
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
 Route::middleware("auth")->group(function () {
-    Route::get("/signout", [LoginController::class, "signOut"])->name("signout");
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::get("/profile", [ProfileController::class, "index"])->name("profile.index");
     Route::get("/profile/edit", [ProfileController::class, "edit"])->name("profile.edit");

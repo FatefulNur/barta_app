@@ -139,9 +139,4 @@ class PostController extends Controller
 
         return to_route("posts.index")->with("success", "Post has been deleted successfully");
     }
-
-    private function isAuthor(int $user): bool
-    {
-        return auth()->user()->id === $user;
-    }
 }

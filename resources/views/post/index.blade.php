@@ -180,11 +180,11 @@
                                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
                                     tabindex="-1">
-                                    <a href="{{ route('posts.edit', $post->uuid) }}"
+                                    <a href="{{ route('posts.edit', $post->id) }}"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
                                         tabindex="-1" id="user-menu-item-0">Edit</a>
                                     <form onsubmit="return confirm('Really wanna delete the post')"
-                                        action="{{ route('posts.destroy', $post->uuid) }}" method="POST" role="menuitem"
+                                        action="{{ route('posts.destroy', $post->id) }}" method="POST" role="menuitem"
                                         tabindex="-1" id="user-menu-item-1">
                                         @csrf
                                         @method('DELETE')
@@ -204,7 +204,7 @@
 
                 <!-- Content -->
                 <div class="py-4 text-gray-700 font-normal">
-                    <a href="{{ route('posts.show', $post->uuid) }}"
+                    <a href="{{ route('posts.show', $post->id) }}"
                         class="whitespace-pre-wrap hover:underline line-clamp-1">{{ $post->body }}</a>
                 </div>
 
@@ -221,7 +221,7 @@
                     <div class="flex items-center justify-between">
                         <div class="flex gap-8 text-gray-600">
                             <!-- Comment Button -->
-                            <a href="./single.html" type="button"
+                            <a href="{{ route('posts.show', $post->id) }}" type="button"
                                 class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800">
                                 <span class="sr-only">Comment</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

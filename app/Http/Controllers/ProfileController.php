@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $posts = DB::table("posts")->where("user_id", $user->id)
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "uuid",
+                "id",
                 "body",
                 "user_id",
                 "view_count",

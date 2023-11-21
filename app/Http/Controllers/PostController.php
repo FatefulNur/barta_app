@@ -18,7 +18,7 @@ class PostController extends Controller
         $posts = DB::table("posts")
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "uuid",
+                "id",
                 "body",
                 "user_id",
                 "view_count",
@@ -40,7 +40,6 @@ class PostController extends Controller
         $postData = array_merge(
             $request->validated(),
             [
-                "uuid" => Str::uuid(),
                 "user_id" => $request->user()->id,
                 "created_at" => now(),
             ],
@@ -54,17 +53,17 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $uuid)
+    public function show(int $id)
     {
         $query = DB::table("posts")
-            ->where("uuid", $uuid);
+            ->where("id", $id);
 
         $query->increment("view_count");
 
         $post = $query
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "uuid",
+                "id",
                 "body",
                 "user_id",
                 "view_count",
@@ -80,17 +79,17 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $uuid)
+    public function edit(int $id)
     {
         $query = DB::table("posts")
-            ->where("uuid", $uuid);
+            ->where("id", $id);
 
         if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);
         }
 
         $post = $query
-            ->select("uuid", "body")
+            ->select("id", "body")
             ->first();
 
         return view("post.edit", compact("post"));
@@ -99,10 +98,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StorePostRequest $request, string $uuid)
+    public function update(StorePostRequest $request, int $id)
     {
         $query = DB::table("posts")
-            ->where("uuid", $uuid);
+            ->where("id", $id);
 
         if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);
@@ -119,17 +118,17 @@ class PostController extends Controller
 
         return to_route(
             "posts.show",
-            ["post" => $uuid],
+            ["post" => $id],
         )->with("success", "Post has been updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $uuid)
+    public function destroy(int $id)
     {
         $query = DB::table("posts")
-            ->where("uuid", $uuid);
+            ->where("id", $id);
 
         if (!$this->isAuthor($query->first()->user_id)) {
             abort(403);

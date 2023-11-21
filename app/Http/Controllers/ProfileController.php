@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $posts = DB::table("posts")->where("user_id", $user->id)
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "id",
+                "posts.id",
                 "body",
                 "user_id",
                 "view_count",
@@ -33,7 +33,7 @@ class ProfileController extends Controller
             ->orderByDesc("created_at")
             ->get();
 
-        return view("profile.index", compact("firstName", "fullName", "bio", "posts"));
+        return view("profile.index", compact("user", "firstName", "fullName", "bio", "posts"));
     }
 
     public function edit(int $id): View

@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        @author($posts->first()->user_id)
+        @author($user->id)
         <!-- Edit Profile Button (Only visible to the profile owner) -->
         <a href="{{ route('profile.edit', auth()->id()) }}" type="button"
             class="-m-2 flex gap-2 items-center rounded-full px-4 py-2 font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700">
@@ -78,7 +78,7 @@
         @endauthor
     </section>
 
-    @author($posts->first()->user_id)
+    @author($user->id)
     <!-- Barta Create Post Card -->
     <form action="{{ route('posts.index') }}" method="POST" enctype="multipart/form-data"
         class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3 @error('body')

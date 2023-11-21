@@ -18,7 +18,7 @@ class PostController extends Controller
         $posts = DB::table("posts")
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "id",
+                "posts.id",
                 "body",
                 "user_id",
                 "view_count",
@@ -56,14 +56,14 @@ class PostController extends Controller
     public function show(int $id)
     {
         $query = DB::table("posts")
-            ->where("id", $id);
+            ->where("posts.id", $id);
 
         $query->increment("view_count");
 
         $post = $query
             ->join("users", "posts.user_id", "=", "users.id")
             ->select(
-                "id",
+                "posts.id",
                 "body",
                 "user_id",
                 "view_count",

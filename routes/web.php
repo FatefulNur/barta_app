@@ -32,9 +32,9 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get("/profile", [ProfileController::class, "index"])->name("profile.index");
-    Route::get("/profile/edit", [ProfileController::class, "edit"])->name("profile.edit");
-    Route::put("/profile/update", [ProfileController::class, "update"])->name("profile.update");
+    Route::get("/users/{user}/profile", [ProfileController::class, "index"])->name("profile.index");
+    Route::get("/users/{user}/profile/edit", [ProfileController::class, "edit"])->name("profile.edit");
+    Route::put("/users/profile/update", [ProfileController::class, "update"])->name("profile.update");
 
     Route::resource("/posts", PostController::class)->except("create");
 });

@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use App\Providers\RouteServiceProvider;
 use App\Http\Requests\RegisterUserRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
@@ -32,10 +28,10 @@ class RegisteredUserController extends Controller
     {
         $userData = $request->validated();
 
-        $userData["password"] = Hash::make($userData["password"]);
+        $userData['password'] = Hash::make($userData['password']);
 
-        DB::table("users")->insert($userData);
+        DB::table('users')->insert($userData);
 
-        return to_route("login")->with("success", "You have registered successfully");
+        return to_route('login')->with('success', 'You have registered successfully');
     }
 }

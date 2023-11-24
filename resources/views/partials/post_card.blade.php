@@ -99,7 +99,11 @@
         <div class="flex items-center justify-between">
             <div class="flex gap-8 text-gray-600">
                 <!-- Comment Button -->
-                <a href="{{ route('posts.show', $post->id) }}" type="button"
+                <a href="{{ route('posts.show', [
+                    'post' => $post->id,
+                    'for_comment' => true,
+                ]) }}"
+                    type="button"
                     class="-m-2 flex gap-2 text-xs items-center rounded-full p-2 text-gray-600 hover:text-gray-800">
                     <span class="sr-only">Comment</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"

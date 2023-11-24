@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $firstName = Str::of(Auth::user()->name)->before(' ');
         $posts = DB::table('posts')
@@ -38,7 +40,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
         $postData = array_merge(
             $request->validated(),
@@ -56,7 +58,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(int $id): View
     {
         $query = DB::table('posts')
             ->where('posts.id', $id);
@@ -76,7 +78,7 @@ class PostController extends Controller
             )
             ->first();
 
-        abort_if(! $post, 404);
+        abort_if(!$post, 404);
 
         $comments = DB::table('comments')
             ->where('post_id', $id)
@@ -97,14 +99,14 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id)
+    public function edit(int $id): View
     {
         $query = DB::table('posts')
             ->where('id', $id);
 
-        abort_if(! $query->first(), 404);
+        abort_if(!$query->first(), 404);
 
-        abort_if(! $this->isAuthor($query->first()->user_id), 403);
+        abort_if(!$this->isAuthor($query->first()->user_id), 403);
 
         $post = $query
             ->select('id', 'body')
@@ -116,12 +118,12 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StorePostRequest $request, int $id)
+    public function update(StorePostRequest $request, int $id): RedirectResponse
     {
         $query = DB::table('posts')
             ->where('id', $id);
 
-        abort_if(! $this->isAuthor($query->first()->user_id), 403);
+        abort_if(!$this->isAuthor($query->first()->user_id), 403);
 
         $updatedPost = array_merge(
             $request->validated(),
@@ -141,12 +143,12 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): RedirectResponse
     {
         $query = DB::table('posts')
             ->where('id', $id);
 
-        abort_if(! $this->isAuthor($query->first()->user_id), 403);
+        abort_if(!$this->isAuthor($query->first()->user_id), 403);
 
         $query->delete();
 

@@ -2,155 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Post;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): View
+    public function index()
     {
-        $firstName = Str::of(Auth::user()->name)->before(' ');
-        $posts = DB::table('posts')
-            ->select(
-                DB::raw('COUNT(comments.id) as comments_count'),
-                'posts.id',
-                'posts.body',
-                'posts.user_id',
-                'view_count',
-                'users.name',
-                'users.username',
-                'posts.created_at',
-            )
-            ->leftJoin('users', 'posts.user_id', '=', 'users.id')
-            ->leftJoin('comments', 'posts.id', '=', 'comments.post_id')
-            ->groupBy('posts.id')
+        $posts = Post::select([
+            'id',
+            'body',
+            'user_id',
+            'view_count',
+            'created_at',
+        ])->withCount('comments')
+            ->with('user:id,name,username')
             ->orderByDesc('created_at')
             ->get();
 
-        return view('post.index', compact('posts', 'firstName'));
+        return view('post.index', compact('posts'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePostRequest $request): RedirectResponse
     {
-        $postData = array_merge(
-            $request->validated(),
-            [
-                'user_id' => $request->user()->id,
-                'created_at' => now(),
-            ],
-        );
-
-        DB::table('posts')->insert($postData);
+        $request->user()->posts()->create($request->validated());
 
         return back()->with('success', 'Post has been created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(int $id): View
+    public function show(Post $post): View
     {
-        $query = DB::table('posts')
-            ->where('posts.id', $id);
+        $post->update(['view_count' => $post->view_count + 1]);
 
-        $query->increment('view_count');
+        $post->load([
+            'user:id,name,username',
+            'comments:id,body,user_id,post_id,created_at',
+        ])->loadCount('comments');
 
-        $post = $query
-            ->join('users', 'posts.user_id', '=', 'users.id')
-            ->select(
-                'posts.id',
-                'body',
-                'user_id',
-                'view_count',
-                'users.name',
-                'users.username',
-                'posts.created_at',
-            )
-            ->first();
-
-        abort_if(!$post, 404);
-
-        $comments = DB::table('comments')
-            ->where('post_id', $id)
-            ->join('users', 'comments.user_id', '=', 'users.id')
-            ->select(
-                'comments.id',
-                'body',
-                'user_id',
-                'name',
-                'username',
-                'comments.created_at',
-            )
-            ->get();
-
-        return view('post.show', compact('post', 'comments'));
+        return view('post.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id): View
+    public function edit(Post $post): View
     {
-        $query = DB::table('posts')
-            ->where('id', $id);
-
-        abort_if(!$query->first(), 404);
-
-        abort_if(!$this->isAuthor($query->first()->user_id), 403);
-
-        $post = $query
-            ->select('id', 'body')
-            ->first();
+        abort_if(!$this->isAuthor($post->user_id), 403);
 
         return view('post.edit', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(StorePostRequest $request, int $id): RedirectResponse
+    public function update(StorePostRequest $request, Post $post): RedirectResponse
     {
-        $query = DB::table('posts')
-            ->where('id', $id);
+        abort_if(!$this->isAuthor($post->user_id), 403);
 
-        abort_if(!$this->isAuthor($query->first()->user_id), 403);
-
-        $updatedPost = array_merge(
-            $request->validated(),
-            [
-                'updated_at' => now(),
-            ],
-        );
-
-        $query->update($updatedPost);
+        $post->update($request->validated());
 
         return to_route(
             'posts.show',
-            ['post' => $id],
+            ['post' => $post->id],
         )->with('success', 'Post has been updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Post $post): RedirectResponse
     {
-        $query = DB::table('posts')
-            ->where('id', $id);
+        abort_if(!$this->isAuthor($post->user_id), 403);
 
-        abort_if(!$this->isAuthor($query->first()->user_id), 403);
-
-        $query->delete();
+        $post->delete();
 
         return to_route('posts.index')->with('success', 'Post has been deleted successfully');
     }

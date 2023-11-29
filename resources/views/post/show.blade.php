@@ -21,12 +21,12 @@
                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                             <a href="{{ route('profile.index', $post->user_id) }}"
                                 class="hover:underline font-semibold line-clamp-1">
-                                {{ str($post->name)->title() }}
+                                {{ str($post->user->name)->title() }}
                             </a>
 
                             <a href="{{ route('profile.index', $post->user_id) }}"
                                 class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                {{ str($post->username)->prepend('@') }}
+                                {{ str($post->user->username)->prepend('@') }}
                             </a>
                         </div>
                         <!-- /User Info -->
@@ -84,7 +84,7 @@
             <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
                 <span>{{ Carbon\Carbon::parse($post->created_at)->diffForHumans() }}</span>
                 <span>•</span>
-                <span>{{ $comments->count() }} comments</span>
+                <span>{{ $post->comments_count }} comments</span>
                 <span>•</span>
                 <span>{{ $post->view_count }} views</span>
             </div>
@@ -157,17 +157,17 @@
         </article>
         <!-- /Barta Card -->
 
-        @if ($comments->count())
+        @if ($post->comments_count)
             <hr>
 
             <div class="flex flex-col space-y-6">
-                <h1 class="text-lg font-semibold">Comments ({{ $comments->count() }})</h1>
+                <h1 class="text-lg font-semibold">Comments ({{ $post->comments_count }})</h1>
                 <!-- Barta User Comments Container -->
                 <article
                     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-2 sm:px-6 min-w-full divide-y">
                     <!-- Comments -->
 
-                    @foreach ($comments as $comment)
+                    @foreach ($post->comments as $comment)
                         <div class="py-4">
                             <!-- Barta User Comments Top -->
                             <header>
@@ -177,12 +177,12 @@
                                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                             <a href="{{ route('profile.index', $comment->user_id) }}"
                                                 class="hover:underline font-semibold line-clamp-1">
-                                                {{ str($comment->name)->title() }}
+                                                {{ str($comment->user->name)->title() }}
                                             </a>
 
                                             <a href="{{ route('profile.index', $comment->user_id) }}"
                                                 class="hover:underline text-sm text-gray-500 line-clamp-1">
-                                                {{ str($comment->username)->prepend('@') }}
+                                                {{ str($comment->user->username)->prepend('@') }}
                                             </a>
                                         </div>
                                         <!-- /User Info -->

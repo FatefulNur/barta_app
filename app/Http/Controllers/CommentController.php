@@ -2,90 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
-    public function store(StorePostRequest $request, int $postId): RedirectResponse
+    public function store(StorePostRequest $request, Post $post): RedirectResponse
     {
         $commentData = array_merge(
             $request->validated(),
             [
                 'user_id' => $request->user()->id,
-                'post_id' => $postId,
-                'created_at' => now(),
             ],
         );
 
-        DB::table('comments')->insert($commentData);
+        $post->comments()->create($commentData);
 
         return back()->with('success', 'Comment has been created successfully');
     }
 
-    public function edit(int $postId, int $commentId): RedirectResponse
+    public function edit(Post $post, Comment $comment): RedirectResponse
     {
-        $editComment = DB::table('comments')
-            ->select('body', 'post_id', 'user_id')
-            ->where('id', $commentId)
-            ->first();
-
-        abort_if(!$editComment, 404);
-
-        abort_if($postId !== $editComment->post_id, 404);
-
-        abort_if(!$this->isAuthor($editComment->user_id), 403);
+        abort_if(!$this->isAuthor($comment->user_id), 403);
 
         return back()
-            ->with('editComment', $editComment->body)
-            ->with('commentId', $commentId);
+            ->with('editComment', $comment->body)
+            ->with('commentId', $comment->id);
     }
 
-    public function update(Request $request, int $postId, int $commentId): RedirectResponse
+    public function update(Request $request, Post $post, Comment $comment): RedirectResponse
     {
+        abort_if(!$this->isAuthor($comment->user_id), 403);
+
         $validator = Validator::make($request->all(), [
             'body' => 'required',
         ]);
 
         if ($validator->fails()) {
             return back()
-                ->with('commentId', $commentId)
+                ->with('commentId', $comment->id)
                 ->withErrors($validator)
                 ->withInput();
-
         }
 
-        $query = DB::table('comments')
-            ->select('post_id', 'user_id')
-            ->where('id', $commentId);
-
-        abort_if(!$this->isAuthor($query->first()->user_id), 403);
-
-        if ($postId !== $query->first()->post_id) {
-            return back()->with('error', 'Comment cannot be updated:(');
-        }
-
-        $query->update($validator->safe()->only('body'));
+        $comment->update($validator->safe()->only('body'));
 
         return back()->with('success', 'Comment has been updated successfully');
     }
 
-    public function destroy(int $postId, int $commentId): RedirectResponse
+    public function destroy(Post $post, Comment $comment): RedirectResponse
     {
-        $query = DB::table('comments')
-            ->select('post_id', 'user_id')
-            ->where('id', $commentId);
+        abort_if(!$this->isAuthor($comment->user_id), 403);
 
-        abort_if(!$this->isAuthor($query->first()->user_id), 403);
-
-        if ($postId !== $query->first()->post_id) {
-            return back()->with('error', 'Comment cannot be deleted:(');
-        }
-
-        $query->delete();
+        $comment->delete();
 
         return back()->with('success', 'Comment has been deleted successfully');
     }

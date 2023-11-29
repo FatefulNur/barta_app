@@ -10,7 +10,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    protected function isAuthor(int $id): bool
+    protected function isAuthor(string $id): bool
     {
         return auth()->user()->id === $id;
     }

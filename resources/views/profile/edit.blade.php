@@ -57,7 +57,7 @@
                                 Name</label>
                             <div class="mt-2">
                                 <input type="text" name="name" id="name" autocomplete="given-name"
-                                    value="{{ old('name', $name) }}"
+                                    value="{{ old('name', $user->name) }}"
                                     class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('name')
                                         !border border-red-500
                                     @enderror" />
@@ -71,7 +71,7 @@
                             <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                             <div class="mt-2">
                                 <input type="text" name="username" id="username"
-                                    value="{{ old('username', $username) }}" autocomplete="family-name"
+                                    value="{{ old('username', $user->username) }}" autocomplete="family-name"
                                     class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('username')
                                         !border border-red-500
                                     @enderror" />
@@ -86,7 +86,7 @@
                                 address</label>
                             <div class="mt-2">
                                 <input id="email" name="email" type="text" autocomplete="email"
-                                    value="{{ old('email', $email) }}"
+                                    value="{{ old('email', $user->email) }}"
                                     class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('email')
                                         !border border-red-500
                                     @enderror" />
@@ -118,7 +118,7 @@
                             <textarea id="bio" name="bio" rows="3"
                                 class="block w-full rounded-md border-0 p-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6 @error('bio')
                                     !border border-red-500
-                                @enderror">{{ old('bio', $bio) }}</textarea>
+                                @enderror">{{ old('bio', $user->bio) }}</textarea>
                             @error('bio')
                                 <span class="text-sm text-red-600 font-semibold">{{ $message }}</span>
                             @enderror

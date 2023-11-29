@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::if('author', function (int $id) {
+        Model::shouldBeStrict(!app()->isProduction());
+
+        Blade::if('author', function (string $id) {
             return auth()->user()->id === $id;
         });
     }

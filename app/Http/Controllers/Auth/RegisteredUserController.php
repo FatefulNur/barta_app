@@ -2,36 +2,28 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterUserRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterUserRequest;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(RegisterUserRequest $request): RedirectResponse
     {
-        $userData = $request->validated();
+        $user = User::create($request->validated());
 
-        $userData['password'] = Hash::make($userData['password']);
+        if ($user) {
+            Auth::login($user);
+        }
 
-        DB::table('users')->insert($userData);
-
-        return to_route('login')->with('success', 'You have registered successfully');
+        return to_route('login');
     }
 }

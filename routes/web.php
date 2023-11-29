@@ -38,5 +38,5 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('posts', PostController::class)->except('create');
-    Route::resource('posts.comments', CommentController::class)->except(['index', 'create', 'show']);
+    Route::resource('posts.comments', CommentController::class)->except(['index', 'create', 'show'])->scoped();
 });

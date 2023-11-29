@@ -1,3 +1,4 @@
+{{-- @dd($post->user->name) --}}
 <!-- Barta Card -->
 <article class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
     <!-- Barta Card Top -->
@@ -17,21 +18,21 @@
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                     @if (request()->routeIs('profile.*'))
                         <span class="font-semibold line-clamp-1">
-                            {{ str($post->name)->title() }}
+                            {{ str($post->user->name)->title() }}
                         </span>
 
                         <span class="text-sm text-gray-500 line-clamp-1">
-                            {{ str($post->username)->prepend('@') }}
+                            {{ str($post->user->username)->prepend('@') }}
                         </span>
                     @else
                         <a href="{{ route('profile.index', $post->user_id) }}"
                             class="hover:underline font-semibold line-clamp-1">
-                            {{ str($post->name)->title() }}
+                            {{ str($post->user->name)->title() }}
                         </a>
 
                         <a href="{{ route('profile.index', $post->user_id) }}"
                             class="hover:underline text-sm text-gray-500 line-clamp-1">
-                            {{ str($post->username)->prepend('@') }}
+                            {{ str($post->user->username)->prepend('@') }}
                         </a>
                     @endif
                 </div>

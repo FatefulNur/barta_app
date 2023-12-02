@@ -8,7 +8,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 
 class UpdateProfileAction
 {
-    public function handle(ProfileUpdateRequest $request): User
+    public function handle(ProfileUpdateRequest $request)
     {
         $userData = $request->validated();
 

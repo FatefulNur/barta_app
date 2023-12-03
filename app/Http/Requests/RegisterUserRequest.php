@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\FullnameRule;
+use App\Rules\UsernameRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -25,7 +26,7 @@ class RegisterUserRequest extends FormRequest
     {
         return [
             'name' => ['required', new FullnameRule(), 'max:100'],
-            'username' => ['required', 'alpha_num:ascii', 'min:3', 'max:100'],
+            'username' => ['required', new UsernameRule(), 'unique:users,username'],
             'email' => ['required', 'string', 'lowercase', 'email', 'unique:users,email'],
             'password' => ['required', Password::defaults()],
         ];

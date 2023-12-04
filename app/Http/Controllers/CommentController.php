@@ -13,14 +13,10 @@ class CommentController extends Controller
 {
     public function store(StorePostRequest $request, Post $post): RedirectResponse
     {
-        $commentData = array_merge(
-            $request->validated(),
-            [
-                'user_id' => $request->user()->id,
-            ],
-        );
-
-        $post->comments()->create($commentData);
+        $post->comments()->create([
+            ...$request->validated(),
+            'user_id' => $request->user()->id,
+        ]);
 
         return back()->with('success', 'Comment has been created successfully');
     }

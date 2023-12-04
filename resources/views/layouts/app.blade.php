@@ -34,8 +34,15 @@
                         </div>
 
                     </div>
-                    <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
 
+                    {{-- Search Input --}}
+                    <form action="{{ route('search') }}" method="GET" class="flex items-center">
+                        <input type="text" name="q" placeholder="Search..."
+                            class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+                            value="{{ request()->query('q') }}">
+                    </form>
+
+                    <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
                         {{-- Navigation Menu --}}
                         @include('partials.navigation')
                     </div>
@@ -45,7 +52,8 @@
         </nav>
     </header>
 
-    <main class="container max-w-xl mx-auto space-y-8 mt-8 px-2 md:px-0 min-h-screen">
+    <main
+        class="container @isset($maxContainerWidth) max-w-2xl @else max-w-xl @endisset mx-auto space-y-8 mt-8 px-2 md:px-0 min-h-screen">
         {{-- Message for session data --}}
         @include('partials.flash_message')
 

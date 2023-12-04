@@ -1,4 +1,3 @@
-{{-- @dd($post->user->name) --}}
 <!-- Barta Card -->
 <article class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
     <!-- Barta Card Top -->
@@ -6,19 +5,18 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <!-- User Avatar -->
-                <!--                <div class="flex-shrink-0">-->
-                <!--                  <img-->
-                <!--                    class="h-10 w-10 rounded-full object-cover"-->
-                <!--                    src="https://avatars.githubusercontent.com/u/61485238"-->
-                <!--                    alt="Al Nahian" />-->
-                <!--                </div>-->
+                <div class="flex-shrink-0">
+                    <img class="h-10 w-10 rounded-full object-cover"
+                        src="{{ $post->user->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                        alt="AVATAR">
+                </div>
                 <!-- /User Avatar -->
 
                 <!-- User Info -->
                 <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                     @if (request()->routeIs('profile.*'))
                         <span class="font-semibold line-clamp-1">
-                            {{ str($post->user->name)->title() }}
+                            {{ $post->user->fullName() }}
                         </span>
 
                         <span class="text-sm text-gray-500 line-clamp-1">
@@ -27,7 +25,7 @@
                     @else
                         <a href="{{ route('profile.index', $post->user_id) }}"
                             class="hover:underline font-semibold line-clamp-1">
-                            {{ str($post->user->name)->title() }}
+                            {{ $post->user->fullName() }}
                         </a>
 
                         <a href="{{ route('profile.index', $post->user_id) }}"
@@ -81,11 +79,15 @@
         </div>
     </header>
 
-    <!-- Content -->
-    <div class="py-4 text-gray-700 font-normal">
-        <a href="{{ route('posts.show', $post->id) }}"
-            class="whitespace-pre-wrap hover:underline line-clamp-1">{{ $post->body }}</a>
-    </div>
+    <a href="{{ route('posts.show', $post->id) }}"
+        class="py-4 block text-gray-700 hover:underline font-normal space-y-2">
+        @if ($post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE))
+            <img src="{{ $post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE) }}"
+                class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
+        @endif
+
+        <p class="whitespace-pre-wrap line-clamp-1">{{ $post->body }}</p>
+    </a>
 
     <!-- Date Created & View Stat -->
     <div class="flex items-center gap-2 text-gray-500 text-xs my-2">

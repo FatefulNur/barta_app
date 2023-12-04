@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'maxContainerWidth' => true,
+])
 
 @section('content')
     <section id="newsfeed" class="space-y-6">
@@ -9,19 +11,18 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <!-- User Avatar -->
-                        <!--                <div class="flex-shrink-0">-->
-                        <!--                  <img-->
-                        <!--                    class="h-10 w-10 rounded-full object-cover"-->
-                        <!--                    src="https://avatars.githubusercontent.com/u/61485238"-->
-                        <!--                    alt="Al Nahian" />-->
-                        <!--                </div>-->
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full object-cover"
+                                src="{{ $post->user->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                                alt="AVATAR">
+                        </div>
                         <!-- /User Avatar -->
 
                         <!-- User Info -->
                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                             <a href="{{ route('profile.index', $post->user_id) }}"
                                 class="hover:underline font-semibold line-clamp-1">
-                                {{ str($post->user->name)->title() }}
+                                {{ $post->user->fullName() }}
                             </a>
 
                             <a href="{{ route('profile.index', $post->user_id) }}"
@@ -76,7 +77,11 @@
             </header>
 
             <!-- Content -->
-            <div class="py-4 text-gray-700 font-normal">
+            <div class="py-4 text-gray-700 font-normal space-y-2">
+                @if ($post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE))
+                    <img src="{{ $post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE) }}"
+                        class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
+                @endif
                 <p class="whitespace-pre-wrap">{{ $post->body }}</p>
             </div>
 
@@ -107,14 +112,13 @@
 
                 <!-- Create Comment Card Top -->
                 <div>
-                    <div class="flex items-start /space-x-3/">
+                    <div class="flex items-start space-x-3">
                         <!-- User Avatar -->
-                        <!-- <div class="flex-shrink-0">-->
-                        <!--              <img-->
-                        <!--                class="h-10 w-10 rounded-full object-cover"-->
-                        <!--                src="https://avatars.githubusercontent.com/u/831997"-->
-                        <!--                alt="Ahmed Shamim" />-->
-                        <!--            </div> -->
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full object-cover"
+                                src="{{ auth()->user()->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                                alt="AVATAR">
+                        </div>
                         <!-- /User Avatar -->
 
                         <!-- Auto Resizing Comment Box -->
@@ -130,12 +134,13 @@
                                 border-red-500
                             @enderror"
                                 style="height: 38px;" @if (request()->query('for_comment')) autofocus @endif>{{ session('editComment') ?? '' }}</textarea>
+
+                            @error('body')
+                                <span class="text-sm text-red-600 font-semibold">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
-                @error('body')
-                    <span class="text-sm text-red-600 font-semibold">{{ $message }}</span>
-                @enderror
                 <!-- Create Comment Card Bottom -->
                 <div>
                     <!-- Card Bottom Action Buttons -->
@@ -173,11 +178,19 @@
                             <header>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-3">
+                                        <!-- User Avatar -->
+                                        <div class="flex-shrink-0">
+                                            <img class="h-10 w-10 rounded-full object-cover"
+                                                src="{{ $comment->user->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                                                alt="AVATAR">
+                                        </div>
+                                        <!-- /User Avatar -->
+
                                         <!-- User Info -->
                                         <div class="text-gray-900 flex flex-col min-w-0 flex-1">
                                             <a href="{{ route('profile.index', $comment->user_id) }}"
                                                 class="hover:underline font-semibold line-clamp-1">
-                                                {{ str($comment->user->name)->title() }}
+                                                {{ $comment->user->fullName() }}
                                             </a>
 
                                             <a href="{{ route('profile.index', $comment->user_id) }}"

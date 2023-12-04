@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StorePost;
 use App\Models\Post;
 use Illuminate\View\View;
+use App\Enums\MediaCollectionEnum;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StorePostRequest;
 
@@ -25,9 +27,9 @@ class PostController extends Controller
         return view('post.index', compact('posts'));
     }
 
-    public function store(StorePostRequest $request): RedirectResponse
+    public function store(StorePostRequest $request, StorePost $storePost): RedirectResponse
     {
-        $request->user()->posts()->create($request->validated());
+        $storePost->handle($request);
 
         return back()->with('success', 'Post has been created successfully');
     }
@@ -39,6 +41,7 @@ class PostController extends Controller
         $post->load([
             'user:id,name,username',
             'comments:id,body,user_id,post_id,created_at',
+            'comments.user:id,name,username',
         ])->loadCount('comments');
 
         return view('post.show', compact('post'));
@@ -55,7 +58,12 @@ class PostController extends Controller
     {
         abort_if(!$this->isAuthor($post->user_id), 403);
 
-        $post->update($request->validated());
+        $request->hasFile('picture') &&
+            $post
+                ->addMedia($request->file('picture'))
+                ->toMediaCollection(MediaCollectionEnum::POST_IMAGE);
+
+        $post->update($request->safe()->only('body'));
 
         return to_route(
             'posts.show',

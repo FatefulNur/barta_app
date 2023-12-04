@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostRequest extends FormRequest
@@ -23,6 +24,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'body' => 'required',
+            'picture' => ['sometimes', File::image()->max('8mb')],
         ];
     }
 }

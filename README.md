@@ -23,6 +23,8 @@ Follow the instructions
 - Go to http://127.0.0.1/ for login with credentials such as 
     - email: `admin@test.com`
     - password: `password`.
+- To upload media for project.
+    - Run `php artisan storage:link`.
 
 ## Project Features
 - **Breeze Authentication**

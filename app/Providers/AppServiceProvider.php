@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::shouldBeStrict(!app()->isProduction());
+        Model::shouldBeStrict(! app()->isProduction());
 
         Blade::if('author', function (string $id) {
             return auth()->user()->id === $id;

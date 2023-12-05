@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\Comment;
-use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StorePostRequest;
+use App\Models\Comment;
+use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -23,7 +23,7 @@ class CommentController extends Controller
 
     public function edit(Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(!$this->isAuthor($comment->user_id), 403);
+        abort_if(! $this->isAuthor($comment->user_id), 403);
 
         return back()
             ->with('editComment', $comment->body)
@@ -32,7 +32,7 @@ class CommentController extends Controller
 
     public function update(Request $request, Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(!$this->isAuthor($comment->user_id), 403);
+        abort_if(! $this->isAuthor($comment->user_id), 403);
 
         $validator = Validator::make($request->all(), [
             'body' => 'required',
@@ -52,7 +52,7 @@ class CommentController extends Controller
 
     public function destroy(Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(!$this->isAuthor($comment->user_id), 403);
+        abort_if(! $this->isAuthor($comment->user_id), 403);
 
         $comment->delete();
 

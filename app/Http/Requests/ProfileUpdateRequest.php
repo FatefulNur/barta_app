@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use App\Rules\FullnameRule;
 use App\Rules\UsernameRule;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest
 {

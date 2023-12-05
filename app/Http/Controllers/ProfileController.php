@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdateProfile;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Comment;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use App\Actions\UpdateProfile;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
@@ -34,14 +33,14 @@ class ProfileController extends Controller
 
     public function edit(User $user): View
     {
-        abort_if(!$this->isAuthor($user->id), 403);
+        abort_if(! $this->isAuthor($user->id), 403);
 
         return view('profile.edit', compact('user'));
     }
 
     public function update(ProfileUpdateRequest $request, UpdateProfile $updateProfile): RedirectResponse
     {
-        abort_if(!$this->isAuthor($request->user()->id), 403);
+        abort_if(! $this->isAuthor($request->user()->id), 403);
 
         $updateProfile->handle($request);
 

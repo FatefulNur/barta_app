@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Comment;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -16,9 +16,9 @@ class SearchController extends Controller
     public function __invoke(Request $request)
     {
         $user = User::query()->when($request->query('q'), function (Builder $builder) use ($request) {
-            $builder->where('username', 'LIKE', '%' . $request->query('q') . '%')
-                ->orWhere('name', 'LIKE', '%' . $request->query('q') . '%')
-                ->orWhere('email', 'LIKE', '%' . $request->query('q') . '%');
+            $builder->where('username', 'LIKE', '%'.$request->query('q').'%')
+                ->orWhere('name', 'LIKE', '%'.$request->query('q').'%')
+                ->orWhere('email', 'LIKE', '%'.$request->query('q').'%');
         })->firstOrFail();
 
         $posts = Post::select([

@@ -1,4 +1,5 @@
 <?php
+
 use App\Services\MediaLibrary\CustomPathGenerator;
 
 return [

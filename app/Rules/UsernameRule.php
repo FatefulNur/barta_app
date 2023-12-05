@@ -14,7 +14,7 @@ class UsernameRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!preg_match('/^[a-zA-Z]+(?:[_-]?[\d\w]+)*$/', $value)) {
+        if (! preg_match('/^[a-zA-Z]+(?:[_-]?[\d\w]+)*$/', $value)) {
             $fail("The {$attribute} field must be an username.");
         }
     }

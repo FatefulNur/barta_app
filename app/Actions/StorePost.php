@@ -2,10 +2,9 @@
 
 namespace App\Actions;
 
-use App\Enums\MediaCollectionEnum;
-use App\Models\Post;
-use Illuminate\Support\Facades\DB;
+use App\Constants\MediaCollectionName;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Facades\DB;
 
 class StorePost
 {
@@ -17,7 +16,7 @@ class StorePost
             $request->hasFile('picture') &&
                 $post
                     ->addMedia($request->file('picture'))
-                    ->toMediaCollection(MediaCollectionEnum::POST_IMAGE);
+                    ->toMediaCollection(MediaCollectionName::POST_IMAGE);
 
             return $post;
         }, 3);

@@ -2,9 +2,9 @@
 
 namespace App\Actions;
 
-use App\Enums\MediaCollectionEnum;
-use Illuminate\Support\Facades\Hash;
+use App\Constants\MediaCollectionName;
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateProfile
 {
@@ -18,7 +18,7 @@ class UpdateProfile
             $request
                 ->user()
                 ->addMedia($request->file('avatar'))
-                ->toMediaCollection(MediaCollectionEnum::PROFILE_IMAGE);
+                ->toMediaCollection(MediaCollectionName::PROFILE_IMAGE);
 
         return $request->user()->update($userData);
     }

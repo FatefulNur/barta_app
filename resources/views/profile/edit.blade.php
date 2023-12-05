@@ -21,7 +21,7 @@
                         <div class="mt-2 flex items-center gap-x-3">
                             <input class="hidden" type="file" name="avatar" id="avatar">
                             <img class="h-32 w-32 object-cover rounded-full border-2"
-                                src="{{ $user->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                                src="{{ $user->getFirstMediaUrl(App\Constants\MediaCollectionName::PROFILE_IMAGE) }}"
                                 alt="AVATAR">
                             <label for="avatar">
                                 <div

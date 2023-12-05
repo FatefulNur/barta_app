@@ -11,7 +11,7 @@
             <!-- User Avatar -->
             <div class="flex-shrink-0">
                 <img class="h-10 w-10 rounded-full object-cover"
-                    src="{{ auth()->user()->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                    src="{{ auth()->user()->getFirstMediaUrl(App\Constants\MediaCollectionName::PROFILE_IMAGE) }}"
                     alt="AVATAR">
             </div>
             <!-- /User Avatar -->

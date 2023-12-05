@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Enums;
+namespace App\Constants;
 
-class MediaCollectionEnum
+class MediaCollectionName
 {
     const POST_IMAGE = 'post-image';
+
     const PROFILE_IMAGE = 'profile-image';
 }

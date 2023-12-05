@@ -7,7 +7,7 @@
                 <!-- User Avatar -->
                 <div class="flex-shrink-0">
                     <img class="h-10 w-10 rounded-full object-cover"
-                        src="{{ $post->user->getFirstMediaUrl(App\Enums\MediaCollectionEnum::PROFILE_IMAGE) }}"
+                        src="{{ $post->user->getFirstMediaUrl(App\Constants\MediaCollectionName::PROFILE_IMAGE) }}"
                         alt="AVATAR">
                 </div>
                 <!-- /User Avatar -->
@@ -81,8 +81,8 @@
 
     <a href="{{ route('posts.show', $post->id) }}"
         class="py-4 block text-gray-700 hover:underline font-normal space-y-2">
-        @if ($post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE))
-            <img src="{{ $post->getFirstMediaUrl(App\Enums\MediaCollectionEnum::POST_IMAGE) }}"
+        @if ($post->getFirstMediaUrl(App\Constants\MediaCollectionName::POST_IMAGE))
+            <img src="{{ $post->getFirstMediaUrl(App\Constants\MediaCollectionName::POST_IMAGE) }}"
                 class="min-h-auto w-full rounded-lg object-cover max-h-64 md:max-h-72" alt="">
         @endif
 

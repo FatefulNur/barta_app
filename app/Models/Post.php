@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\MediaCollectionEnum;
+use App\Constants\MediaCollectionName;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,7 +40,7 @@ class Post extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection(MediaCollectionEnum::POST_IMAGE)
+            ->addMediaCollection(MediaCollectionName::POST_IMAGE)
             ->singleFile()
             ->useDisk('media');
     }

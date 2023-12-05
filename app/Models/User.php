@@ -3,20 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\MediaLibrary\HasMedia;
-use App\Enums\MediaCollectionEnum;
-use Illuminate\Notifications\Notifiable;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Constants\MediaCollectionName;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids, InteractsWithMedia;
+    use HasApiTokens, HasFactory, HasUuids, InteractsWithMedia, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -72,14 +72,14 @@ class User extends Authenticatable implements HasMedia
     public function bio(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => $value ?? 'Less Talk, More Code 💻',
+            get: fn (?string $value) => $value ?? 'Less Talk, More Code 💻',
         );
     }
 
     public function registerMediaCollections(): void
     {
         $this
-            ->addMediaCollection(MediaCollectionEnum::PROFILE_IMAGE)
+            ->addMediaCollection(MediaCollectionName::PROFILE_IMAGE)
             ->singleFile()
             ->useDisk('avatar')
             ->useFallbackUrl('/storage/avatars/default.png');

@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\StorePost;
-use App\Constants\MediaCollectionName;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
+    public function __construct(protected PostService $postService)
+    {
+
+    }
+
     public function index()
     {
         $posts = Post::select([
@@ -27,9 +31,12 @@ class PostController extends Controller
         return view('post.index', compact('posts'));
     }
 
-    public function store(StorePostRequest $request, StorePost $storePost): RedirectResponse
+    public function store(StorePostRequest $request): RedirectResponse
     {
-        $storePost->handle($request);
+        $this->postService->store(
+            $request->safe()->except('picture'),
+            $request->hasFile('picture') ? $request->file('picture') : null,
+        );
 
         return back()->with('success', 'Post has been created successfully');
     }
@@ -58,12 +65,15 @@ class PostController extends Controller
     {
         abort_if(! $this->isAuthor($post->user_id), 403);
 
-        $request->hasFile('picture') &&
-            $post
-                ->addMedia($request->file('picture'))
-                ->toMediaCollection(MediaCollectionName::POST_IMAGE);
+        $postData = [
+            'id' => $post->id,
+            ...$request->safe()->except('picture'),
+        ];
 
-        $post->update($request->safe()->only('body'));
+        $this->postService->update(
+            $postData,
+            $request->hasFile('picture') ? $request->file('picture') : null,
+        );
 
         return to_route(
             'posts.show',

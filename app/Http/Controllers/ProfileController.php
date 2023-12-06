@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\UpdateProfile;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -38,11 +38,14 @@ class ProfileController extends Controller
         return view('profile.edit', compact('user'));
     }
 
-    public function update(ProfileUpdateRequest $request, UpdateProfile $updateProfile): RedirectResponse
+    public function update(ProfileUpdateRequest $request, ProfileService $profileService): RedirectResponse
     {
         abort_if(! $this->isAuthor($request->user()->id), 403);
 
-        $updateProfile->handle($request);
+        $profileService->update(
+            $request->safe()->except('avatar'),
+            $request->hasFile('avatar') ? $request->file('avatar') : null,
+        );
 
         return back()->with('success', 'Your profile has been updated');
     }

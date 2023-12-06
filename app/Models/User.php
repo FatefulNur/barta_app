@@ -18,6 +18,8 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, HasUuids, InteractsWithMedia, Notifiable;
 
+    const DEFAULT_IMAGE_PATH = '/images/avatar-default.png';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -82,6 +84,6 @@ class User extends Authenticatable implements HasMedia
             ->addMediaCollection(MediaCollectionName::PROFILE_IMAGE)
             ->singleFile()
             ->useDisk('avatar')
-            ->useFallbackUrl('/storage/avatars/default.png');
+            ->useFallbackUrl(self::DEFAULT_IMAGE_PATH);
     }
 }

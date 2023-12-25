@@ -23,13 +23,9 @@ class PostService
         }, 3);
     }
 
-    public function update(array $data, $image = null)
+    public function update(Post $post, array $data, $image = null)
     {
-        return DB::transaction(function () use ($data, $image) {
-            $post = Post::find($data['id']);
-
-            array_shift($data);
-
+        return DB::transaction(function () use ($post, $data, $image) {
             $post->update($data);
 
             if ($image) {

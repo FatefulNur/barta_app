@@ -65,13 +65,9 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
 
-        $postData = [
-            'id' => $post->id,
-            ...$request->safe()->except('picture'),
-        ];
-
         $this->postService->update(
-            $postData,
+            $post,
+            $request->safe()->except('picture'),
             $request->hasFile('picture') ? $request->file('picture') : null,
         );
 

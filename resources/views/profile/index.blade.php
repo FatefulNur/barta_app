@@ -77,7 +77,7 @@
 
     @author($user->id)
     <!-- Barta Create Post Card -->
-    @include('partials.forms.create_post')
+    @include('post.partials.forms.create-post')
     <!-- /Barta Create Post Card -->
     @endauthor
 
@@ -85,7 +85,7 @@
     <section id="newsfeed" class="space-y-6">
         @forelse ($posts as $post)
             <!-- Barta Card -->
-            @include('partials.post-card', [
+            @include('post.partials.post-card', [
                 'post' => $post,
             ])
             <!-- /Barta Card -->

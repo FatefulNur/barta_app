@@ -44,7 +44,7 @@
 
                     <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
                         {{-- Navigation Menu --}}
-                        @include('partials.navigation')
+                        @include('layouts.partials.navigation')
                     </div>
                 </div>
 
@@ -55,13 +55,13 @@
     <main
         class="container @isset($maxContainerWidth) max-w-2xl @else max-w-xl @endisset mx-auto space-y-8 mt-8 px-2 md:px-0 min-h-screen">
         {{-- Message for session data --}}
-        @include('partials.flash-message')
+        @include('layouts.partials.flash-message')
 
         @yield('content')
     </main>
 
     {{-- Footer --}}
-    @include('partials.footer')
+    @include('layouts.partials.footer')
 </body>
 
 </html>

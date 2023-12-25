@@ -5,12 +5,12 @@
     <!--        <h1 class="text-3xl justify-center items-center">Welcome to Barta!</h1>-->
     <!--      </div>-->
 
-    @include('partials.forms.create_post')
+    @include('post.partials.forms.create-post')
 
     <!-- Newsfeed -->
     <section id="newsfeed" class="space-y-6">
         @forelse ($posts as $post)
-            @include('partials.post-card', [
+            @include('post.partials.post-card', [
                 'post' => $post,
             ])
         @empty

@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('partials.forms.edit_post')
+    @include('post.partials.forms.edit-post')
 @endsection

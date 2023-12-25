@@ -56,14 +56,14 @@ class PostController extends Controller
 
     public function edit(Post $post): View
     {
-        abort_if(! $this->isAuthor($post->user_id), 403);
+        $this->authorize('edit', $post);
 
         return view('post.edit', compact('post'));
     }
 
     public function update(StorePostRequest $request, Post $post): RedirectResponse
     {
-        abort_if(! $this->isAuthor($post->user_id), 403);
+        $this->authorize('update', $post);
 
         $postData = [
             'id' => $post->id,
@@ -83,7 +83,7 @@ class PostController extends Controller
 
     public function destroy(Post $post): RedirectResponse
     {
-        abort_if(! $this->isAuthor($post->user_id), 403);
+        $this->authorize('delete', $post);
 
         $post->delete();
 

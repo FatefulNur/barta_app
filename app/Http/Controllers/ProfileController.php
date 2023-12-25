@@ -33,14 +33,18 @@ class ProfileController extends Controller
 
     public function edit(User $user): View
     {
-        abort_if(! $this->isAuthor($user->id), 403);
+        if ($user->cannot('edit', $user)) {
+            abort(403);
+        }
 
         return view('profile.edit', compact('user'));
     }
 
     public function update(ProfileUpdateRequest $request, ProfileService $profileService): RedirectResponse
     {
-        abort_if(! $this->isAuthor($request->user()->id), 403);
+        if ($request->user()->cannot('edit', auth()->user())) {
+            abort(403);
+        }
 
         $profileService->update(
             $request->safe()->except('avatar'),

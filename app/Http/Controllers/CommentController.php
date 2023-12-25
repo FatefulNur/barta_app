@@ -23,7 +23,7 @@ class CommentController extends Controller
 
     public function edit(Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(! $this->isAuthor($comment->user_id), 403);
+        $this->authorize('edit', $comment);
 
         return back()
             ->with('editComment', $comment->body)
@@ -32,7 +32,7 @@ class CommentController extends Controller
 
     public function update(Request $request, Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(! $this->isAuthor($comment->user_id), 403);
+        $this->authorize('update', $comment);
 
         $validator = Validator::make($request->all(), [
             'body' => 'required',
@@ -52,7 +52,7 @@ class CommentController extends Controller
 
     public function destroy(Post $post, Comment $comment): RedirectResponse
     {
-        abort_if(! $this->isAuthor($comment->user_id), 403);
+        $this->authorize('delete', $comment);
 
         $comment->delete();
 

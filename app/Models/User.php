@@ -53,6 +53,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    public function isAuthor(): bool
+    {
+        return auth()->id() === $this->id;
+    }
+
     /**
      * HasMany relations for user posts
      */
@@ -74,7 +79,7 @@ class User extends Authenticatable implements HasMedia
     public function bio(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ?? 'Less Talk, More Code 💻',
+            get: fn(?string $value) => $value ?? 'Less Talk, More Code 💻',
         );
     }
 

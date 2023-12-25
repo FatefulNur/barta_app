@@ -85,7 +85,7 @@
     <section id="newsfeed" class="space-y-6">
         @forelse ($posts as $post)
             <!-- Barta Card -->
-            @include('partials.post_card', [
+            @include('partials.post-card', [
                 'post' => $post,
             ])
             <!-- /Barta Card -->

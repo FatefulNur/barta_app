@@ -22,7 +22,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'username' => fake()->firstName().fake()->randomNumber(3),
+            'username' => fake()->firstName() . fake()->randomNumber(3),
             'email' => fake()->unique()->safeEmail(),
             'bio' => fake()->realText(25),
             'email_verified_at' => now(),
@@ -34,10 +34,10 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function unverified(): static
+    public function admin(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+        return $this->state(fn(array $attributes) => [
+            'email' => 'admin@test.com',
         ]);
     }
 }

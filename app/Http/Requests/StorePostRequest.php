@@ -24,7 +24,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'body' => 'required',
-            'picture' => ['sometimes', File::image()->max('8mb')],
+            'picture' => ['nullable', File::image()->max('8mb')],
         ];
     }
 }

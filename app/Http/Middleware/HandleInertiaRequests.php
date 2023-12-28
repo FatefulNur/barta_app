@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -27,6 +27,24 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
+    public function data(Request $request)
+    {
+        return [
+            'auth' => [
+                'user' => $request->user(),
+            ],
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+            ],
+            'app_name' => config('app.name'),
+            'current_year' => date('Y'),
+            'auth_user_profile' => auth()->user()?->getProfileImage(),
+            'search_query' => request('q'),
+            'xsrf_token' => $request->session()->token(),
+        ];
+    }
+
     /**
      * Defines the props that are shared by default.
      *
@@ -36,8 +54,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
-            //
-        ]);
+        return [
+            ...parent::share($request),
+            ...$this->data($request),
+        ];
     }
 }

@@ -1,6 +1,9 @@
 {
     "compilerOptions": {
         "paths": {
+            "@/.": [
+                "./resource/js"
+            ],
             "ziggy-js": [
                 "./vendor/tightenco/ziggy"
             ]

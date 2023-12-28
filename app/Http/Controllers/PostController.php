@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Http\Resources\PostCollection;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -15,7 +17,7 @@ class PostController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::select([
             'id',
@@ -25,10 +27,18 @@ class PostController extends Controller
             'created_at',
         ])->withCount('comments')
             ->with('user:id,name,username')
-            ->orderByDesc('created_at')
-            ->get();
+            ->latest()
+            ->cursorPaginate(10);
 
-        return view('post.index', compact('posts'));
+        $postsJson = PostCollection::make($posts);
+
+        if ($request->wantsJson()) {
+            return $postsJson;
+        }
+
+        return inertia()->render('Posts/Index', [
+            'posts' => $postsJson,
+        ]);
     }
 
     public function store(StorePostRequest $request): RedirectResponse

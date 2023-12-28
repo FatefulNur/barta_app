@@ -17,7 +17,7 @@
         "vite": "^4.5.1"
     },
     "dependencies": {
-        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/progress": "^0.1.2",
         "@inertiajs/vue3": "^1.0.14"
     }
 }

@@ -21,6 +21,11 @@ class Post extends Model implements HasMedia
         'view_count',
     ];
 
+    public function getPostImage()
+    {
+        return $this->getFirstMediaUrl(MediaCollectionName::POST_IMAGE);
+    }
+
     /**
      * BelongsTo relations for post user
      */

@@ -53,6 +53,11 @@ class User extends Authenticatable implements HasMedia
         'password' => 'hashed',
     ];
 
+    public function getProfileImage()
+    {
+        return $this->getFirstMediaUrl(MediaCollectionName::PROFILE_IMAGE);
+    }
+
     public function isAuthor(): bool
     {
         return auth()->id() === $this->id;

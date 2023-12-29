@@ -27,7 +27,7 @@ class PostController extends Controller
             'created_at',
         ])->withCount('comments')
             ->with('user:id,name,username')
-            ->latest()
+            ->orderByDesc('id')
             ->cursorPaginate(10);
 
         $postsJson = PostCollection::make($posts);

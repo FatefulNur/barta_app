@@ -13,10 +13,7 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        Post::factory()->count(23)
-            ->sequence(fn(Sequence $sequence) => ['created_at' => now()->subMonths(2)->addDays($sequence->index)])
-            ->forUser([
-                'email' => 'author@test.com'
-            ])->create();
+        Post::factory()->count(15)->forUser(['email' => 'author@test.com'])->create();
+        Post::factory()->count(15)->forUser(['email' => 'editor@test.com'])->create();
     }
 }

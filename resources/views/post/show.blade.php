@@ -96,7 +96,7 @@
 
             <hr class="my-6">
 
-            @include('post.partials.forms.comment', [
+            @include('post.partials.forms.create-comment', [
                 'route' => session()->has('commentId') ? 'posts.comments.update' : 'posts.comments.store',
                 'post' => $post->id,
                 'comment' => session('commentId') ?? null,

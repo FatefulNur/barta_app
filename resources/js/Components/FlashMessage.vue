@@ -1,6 +1,5 @@
 <template>
-    <div v-if="message"
-        :class="`p-2 text-md text-center text-${color}-700 bg-${color}-100 border border-${color}-300 rounded-lg`">
+    <div v-if="message" :class="`text-md text-center text-${color}-700 font-semibold`">
         {{ message }}
     </div>
 </template>

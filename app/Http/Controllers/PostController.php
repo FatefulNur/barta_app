@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Resources\PostCollection;
 use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
@@ -15,30 +13,6 @@ class PostController extends Controller
     public function __construct(protected PostService $postService)
     {
 
-    }
-
-    public function index(Request $request)
-    {
-        $posts = Post::select([
-            'id',
-            'body',
-            'user_id',
-            'view_count',
-            'created_at',
-        ])->withCount('comments')
-            ->with('user:id,name,username')
-            ->orderByDesc('id')
-            ->cursorPaginate(10);
-
-        $postsJson = PostCollection::make($posts);
-
-        if ($request->wantsJson()) {
-            return $postsJson;
-        }
-
-        return inertia()->render('Posts/Index', [
-            'posts' => $postsJson,
-        ]);
     }
 
     public function store(StorePostRequest $request): RedirectResponse
@@ -93,6 +67,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return to_route('posts.index')->with('success', 'Post has been deleted successfully');
+        return to_route('home')->with('success', 'Post has been deleted successfully');
     }
 }

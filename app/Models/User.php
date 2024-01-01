@@ -20,11 +20,6 @@ class User extends Authenticatable implements HasMedia
 
     const DEFAULT_IMAGE_PATH = '/images/avatar-default.png';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'username',
@@ -33,21 +28,11 @@ class User extends Authenticatable implements HasMedia
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -63,9 +48,6 @@ class User extends Authenticatable implements HasMedia
         return auth()->id() === $this->id;
     }
 
-    /**
-     * HasMany relations for user posts
-     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);

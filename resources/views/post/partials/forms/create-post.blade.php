@@ -1,5 +1,5 @@
 <!-- Barta Create Post Card -->
-<form action="{{ route('home') }}" method="POST" enctype="multipart/form-data"
+<form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data"
     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3 @error('body')
     border-red-500
 @enderror">

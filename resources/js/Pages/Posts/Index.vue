@@ -1,41 +1,46 @@
 <template>
-    <AppLayout>
-        <!-- Create Post Form -->
-        <CreatePost />
-        <!-- /Create Post Form -->
+    <!-- Create Post Form -->
+    <CreatePost />
+    <!-- /Create Post Form -->
 
-        <!-- Newsfeed -->
-        <section id="newsfeed" class="space-y-6">
-            <template v-if="posts.data.length">
-                <InfiniteScroller @infinite="loadMore">
-                    <PostCard v-for="post in posts.data" :key="post.id" v-bind="post" />
+    <!-- Newsfeed -->
+    <section id="newsfeed" class="space-y-6">
+        <template v-if="posts.data.length">
+            <InfiniteScroller @infinite="loadMore">
+                <PostCard v-for="post in posts.data" :key="post.id" v-bind="post" />
 
-                    <template #endingText>
-                        <template v-if="hasPages">
-                            <Loader />
-                        </template>
-                        <template v-else>
-                            <p class="text-md text-red-600 font-semibold">End of the posts</p>
-                        </template>
+                <template #endingText>
+                    <template v-if="hasPages">
+                        <Skeleton />
                     </template>
-                </InfiniteScroller>
-            </template>
+                    <template v-else>
+                        <p class="text-md text-red-600 font-semibold">End of the posts</p>
+                    </template>
+                </template>
+            </InfiniteScroller>
+        </template>
 
-            <template v-else>
-                <div class="p-3 bg-red-100 text-red-800 border border-red-300 text-center">No Post added yet</div>
-            </template>
+        <template v-else>
+            <div class="font-bold text-red-800 text-center">No Post added yet</div>
+        </template>
 
-        </section>
-        <!-- /Newsfeed -->
-    </AppLayout>
+    </section>
+    <!-- /Newsfeed -->
 </template>
 
-<script setup>
+<script>
 import AppLayout from '@/Layouts/AppLayout.vue'
+
+export default {
+    layout: AppLayout
+}
+</script>
+
+<script setup>
 import CreatePost from '@/Pages/Posts/Partials/Forms/CreatePost.vue'
 import PostCard from '@/Pages/Posts/Partials/PostCard.vue'
 import InfiniteScroller from '@/Components/InfiniteScroller.vue'
-import Loader from '@/Components/Loader.vue'
+import Skeleton from '@/Components/Skeleton.vue'
 
 import { ref, onMounted } from 'vue'
 import axios from 'axios'

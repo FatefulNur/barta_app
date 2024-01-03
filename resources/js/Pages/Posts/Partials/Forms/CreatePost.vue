@@ -83,9 +83,9 @@
 
                 <div>
                     <!-- Post Button -->
-                    <button :disabled="disabled" type="submit"
+                    <button :disabled="form.processing" type="submit"
                         class="-m-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white disabled:bg-gray-300">
-                        <Loader v-if="disabled" />
+                        <Loader v-if="form.processing" />
                         Post
                     </button>
                     <!-- /Post Button -->
@@ -105,9 +105,6 @@
 <script setup>
 import Loader from '@/Components/Loader.vue'
 import { usePage, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
-
-const disabled = ref(false)
 
 const { auth, auth_user_profile } = usePage().props
 
@@ -120,9 +117,7 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('posts.store'), {
-        onBefore: () => disabled.value = true,
         onSuccess: () => form.reset(),
-        onFinish: () => disabled.value = false,
     })
 }
 </script>

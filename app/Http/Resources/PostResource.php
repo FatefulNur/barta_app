@@ -20,13 +20,16 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'user_id' => $this->user_id,
             'user' => UserResource::make($this->whenLoaded('user')),
+            'likes' => LikeResource::collection($this->whenLoaded('likes')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'view_count' => $this->view_count,
             'post_image' => $this->getPostImage(),
             'created_at' => $this->created_at->diffForHumans(),
             'comments_count' => $this->whenCounted('comments'),
+            'likes_count' => $this->whenCounted('likes'),
             'can' => [
-                'edit' => auth()->id() === $this->user_id,
-                'delete' => auth()->id() === $this->user_id,
+                'edit' => $request->user()->id === $this->user_id,
+                'delete' => $request->user()->id === $this->user_id,
             ],
         ];
     }

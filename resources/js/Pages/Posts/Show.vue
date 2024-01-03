@@ -99,7 +99,7 @@
                 <article
                     class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-2 sm:px-6 min-w-full divide-y">
                     <!-- Comments -->
-                    <div v-for="comment in post.data.comments.reverse()" class="py-4">
+                    <div v-for="comment in post.data.comments" class="py-4">
                         <!-- Barta User Comments Top -->
                         <header>
                             <div class="flex items-center justify-between">

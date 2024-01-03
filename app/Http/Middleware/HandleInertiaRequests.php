@@ -39,9 +39,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'app_name' => config('app.name'),
             'current_year' => date('Y'),
-            'auth_user_profile' => auth()->user()?->getProfileImage(),
-            'search_query' => request('q'),
-            'xsrf_token' => $request->session()->token(),
+            'auth_user_profile' => fn() => auth()->user()?->getProfileImage(),
+            'search_query' => fn() => request('q'),
+            'request' => fn() => request(),
+            'xsrf_token' => fn() => $request->session()->token(),
         ];
     }
 

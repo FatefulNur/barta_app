@@ -16,8 +16,8 @@ class HomeController extends Controller
             'user_id',
             'view_count',
             'created_at',
-        ])->withCount('comments')
-            ->with('user:id,name,username')
+        ])->withCount(['comments', 'likes'])
+            ->with(['user:id,name,username', 'likes:id,user_id,post_id', 'likes.user'])
             ->orderByDesc('id')
             ->cursorPaginate(10);
 

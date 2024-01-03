@@ -14,7 +14,7 @@
                     }
                 }" x-init="resize()" x-on:input="resize()" type="text" name="body" placeholder="Write a comment..."
                         :class="`flex w-full h-auto min-h-[40px] px-3 py-2 text-sm bg-gray-100 focus:bg-white border border-sm rounded-lg border-neutral-300 ring-offset-background placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-neutral-400 disabled:cursor-not-allowed disabled:opacity-50 text-gray-900 ${form.errors.body ? 'border-red-500' : ''}`"
-                        style="height: 38px;" :autofocus="request.for_comment" v-model="form.body"></textarea>
+                        style="height: 38px;" v-model="form.body"></textarea>
 
                     <span v-if="form.errors.body" class="text-sm text-red-600 font-semibold">{{ form.errors.body }}</span>
                 </div>
@@ -39,7 +39,7 @@
 
 <script setup>
 import Loader from '@/Components/Loader.vue'
-import { usePage, useForm } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
     commentBody: String,
@@ -48,8 +48,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['submitted'])
-
-const { request } = usePage().props
 
 const form = useForm({
     body: props.commentBody,

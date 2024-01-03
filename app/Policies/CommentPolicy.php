@@ -8,11 +8,6 @@ use Illuminate\Auth\Access\Response;
 
 class CommentPolicy
 {
-
-    public function edit(User $user, Comment $comment): bool
-    {
-        return $user->id === $comment->user_id;
-    }
     public function update(User $user, Comment $comment): bool
     {
         return $user->id === $comment->user_id;

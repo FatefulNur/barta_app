@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
-    public function store(StorePostRequest $request, Post $post): RedirectResponse
+    public function store(StoreCommentRequest $request, Post $post): RedirectResponse
     {
         $post->comments()->create([
             ...$request->validated(),
@@ -21,31 +22,11 @@ class CommentController extends Controller
         return back()->with('success', 'Comment has been created successfully');
     }
 
-    public function edit(Post $post, Comment $comment): RedirectResponse
-    {
-        $this->authorize('edit', $comment);
-
-        return back()
-            ->with('editComment', $comment->body)
-            ->with('commentId', $comment->id);
-    }
-
-    public function update(Request $request, Post $post, Comment $comment): RedirectResponse
+    public function update(UpdateCommentRequest $request, Post $post, Comment $comment): RedirectResponse
     {
         $this->authorize('update', $comment);
 
-        $validator = Validator::make($request->all(), [
-            'body' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return back()
-                ->with('commentId', $comment->id)
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $comment->update($validator->safe()->only('body'));
+        $comment->update($request->validated());
 
         return back()->with('success', 'Comment has been updated successfully');
     }

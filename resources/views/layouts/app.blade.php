@@ -17,6 +17,10 @@
         * {
             font-family: 'Inter', sans-serif;
         }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -42,10 +46,8 @@
                             value="{{ request()->query('q') }}">
                     </form>
 
-                    <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
-                        {{-- Navigation Menu --}}
-                        @include('layouts.partials.navigation')
-                    </div>
+                    {{-- Navigation Menu --}}
+                    @include('layouts.partials.navigation')
                 </div>
 
 

@@ -168,8 +168,8 @@
                         <!-- Content -->
                         <div class="py-4 text-gray-700 font-normal">
                             <template v-if="shouldEdit === comment.id">
-                                <EditComment @submitted="shouldEdit = ''" :comment-body="comment.body"
-                                    :post-id="post.data.id" :comment-id="comment.id" />
+                                <EditComment @submitted="shouldEdit = ''" @cancelled="shouldEdit = ''"
+                                    :comment-body="comment.body" :post-id="post.data.id" :comment-id="comment.id" />
                             </template>
                             <template v-else>
                                 {{ comment.body }}

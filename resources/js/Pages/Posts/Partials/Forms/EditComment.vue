@@ -23,7 +23,11 @@
         <!-- Create Comment Card Bottom -->
         <div>
             <!-- Card Bottom Action Buttons -->
-            <div class="flex items-center justify-end">
+            <div class="flex items-center justify-end space-x-1">
+                <button @click="$emit('cancelled')" type="button"
+                    class="mt-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-300 hover:bg-gray-400 text-black">
+                    Cancel
+                </button>
                 <button :disabled="form.processing" type="submit"
                     class="mt-2 flex gap-2 text-xs items-center rounded-full px-4 py-2 font-semibold bg-gray-800 hover:bg-black text-white disabled:bg-gray-300">
                     <Loader v-if="form.processing" />
@@ -47,7 +51,7 @@ const props = defineProps({
     commentId: String,
 })
 
-const emit = defineEmits(['submitted'])
+const emit = defineEmits(['submitted', 'cancelled'])
 
 const form = useForm({
     body: props.commentBody,

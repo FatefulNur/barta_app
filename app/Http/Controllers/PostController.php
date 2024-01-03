@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\View\View;
 use App\Services\PostService;
@@ -25,7 +26,7 @@ class PostController extends Controller
         return back()->with('success', 'Post has been created successfully');
     }
 
-    public function show(Post $post): View
+    public function show(Post $post)
     {
         $post->update(['view_count' => $post->view_count + 1]);
 
@@ -35,7 +36,9 @@ class PostController extends Controller
             'comments.user:id,name,username',
         ])->loadCount('comments');
 
-        return view('post.show', compact('post'));
+        return inertia()->render('Posts/Show', [
+            'post' => PostResource::make($post),
+        ]);
     }
 
     public function edit(Post $post): View

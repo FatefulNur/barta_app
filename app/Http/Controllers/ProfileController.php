@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use App\Services\ProfileService;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Comment;
 use Illuminate\View\View;
+use App\Services\ProfileService;
+use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
-    public function index(User $user): View
+    public function index(User $user)
     {
         $posts = Post::select([
             'id',
@@ -21,14 +23,18 @@ class ProfileController extends Controller
             'view_count',
             'created_at',
         ])->where('user_id', $user->id)
-            ->withCount('comments')
-            ->with('user:id,name,username')
-            ->orderByDesc('created_at')
+            ->withCount(['comments', 'likes'])
+            ->with(['user:id,name,username', 'likes:id,user_id,post_id', 'likes.user'])
+            ->orderByDesc('id')
             ->get();
 
         $commentsCountOfUserPosts = Comment::whereIn('post_id', $posts->pluck('id'))->count();
 
-        return view('profile.index', compact('user', 'posts', 'commentsCountOfUserPosts'));
+        return inertia()->render('Profiles/Index', [
+            'user' => UserResource::make($user),
+            'posts' => PostResource::collection($posts),
+            'commentsCountOfUserPosts' => $commentsCountOfUserPosts,
+        ]);
     }
 
     public function edit(User $user): View

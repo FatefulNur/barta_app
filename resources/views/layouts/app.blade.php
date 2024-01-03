@@ -36,8 +36,19 @@
                                 <h2 class="font-bold text-2xl">Barta</h2>
                             </a>
                         </div>
-
+                        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                            <!---- Current: "border-gray-800 text-gray-900 font-semibold", Default:
+                            "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800" ----->
+                            <a href="#"
+                                class="inline-flex items-center border-b-2 border-gray-800 px-1 pt-1 text-sm font-semibold text-gray-900">Discover</a>
+                            <a href="#"
+                                class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 hover:border-gray-300 hover:text-gray-800">For
+                                you</a>
+                            <a href="#"
+                                class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-600 hover:border-gray-300 hover:text-gray-800">People</a>
+                        </div>
                     </div>
+
 
                     {{-- Search Input --}}
                     <form action="{{ route('search') }}" method="GET" class="flex items-center">

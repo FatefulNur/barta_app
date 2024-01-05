@@ -55,7 +55,7 @@ class User extends Authenticatable implements HasMedia
 
     public function firstName(): string
     {
-        return str()->of($this->name)->before(' ');
+        return str()->of($this->name)->before(' ')->title();
     }
 
     public function fullName(): string

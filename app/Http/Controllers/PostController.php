@@ -34,7 +34,7 @@ class PostController extends Controller
             'user:id,name,username',
             'comments:id,body,user_id,post_id,created_at',
             'comments.user:id,name,username',
-        ])->loadCount('comments');
+        ])->loadCount(['comments', 'likes']);
 
         return inertia()->render('Posts/Show', [
             'post' => PostResource::make($post),

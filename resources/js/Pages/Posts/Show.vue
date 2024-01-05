@@ -81,6 +81,8 @@
                 <span>{{ post.data.comments_count }} comments</span>
                 <span>•</span>
                 <span>{{ post.data.view_count }} views</span>
+                <span>•</span>
+                <span class="font-semibold">{{ post.data.likes_count }} likes</span>
             </div>
 
             <hr class="my-6">

@@ -29,7 +29,7 @@
                 </form>
 
                 <!-- Navigation Menu -->
-                <div class="relative hidden sm:ml-6 sm:flex gap-2 sm:items-center">
+                <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
                     <!-- This Button Should Be Hidden on Mobile Devices -->
                     <!-- <button type="button"
                         class="text-gray-900 hover:text-white border-2 border-gray-800 hover:bg-gray-900 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block">
@@ -45,37 +45,10 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
-                        <div
-                            class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-                            8</div>
+
+                        <Notification />
                     </button>
 
-                    <div x-show="notifyOpen" id="notify"
-                        class="w-72 max-w-xs px-2 py-5 absolute right-5 mt-52 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 z-10">
-                        <div class="text-center mb-4">
-                            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Notifications</h5>
-                        </div>
-                        <div class="flow-root">
-                            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                <li class="py-3 sm:py-4">
-                                    <div class="flex items-center">
-                                        <div class="flex-1 min-w-0 ms-4">
-                                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                Neil Sims
-                                            </p>
-                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                email@windster.com
-                                            </p>
-                                        </div>
-                                        <div
-                                            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                            $320
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
 
                     <button type="button"
@@ -147,6 +120,7 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3'
 
-const { auth, auth_user_profile, xsrf_token } = usePage().props
+import Notification from '@/Layouts/Partials/Notification.vue'
 
+const { auth, auth_user_profile, xsrf_token } = usePage().props
 </script>

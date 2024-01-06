@@ -80,9 +80,10 @@
                 <span>•</span>
                 <span>{{ post.data.comments_count }} comments</span>
                 <span>•</span>
-                <span>{{ post.data.view_count }} views</span>
+                <span>{{ post.data.view_count }} view{{ post.data.view_count > 1 ? 's' : '' }}</span>
                 <span>•</span>
-                <span class="font-semibold">{{ post.data.likes_count }} likes</span>
+                <span class="font-semibold">{{ post.data.likes_count }} like{{ post.data.likes_count > 1 ? 's' : ''
+                }}</span>
             </div>
 
             <hr class="my-6">
@@ -95,7 +96,7 @@
 
         <template v-if="post.data.comments_count">
             <hr>
-            <div class="flex flex-col space-y-6">
+            <div id="comments" class="flex flex-col space-y-6">
                 <h1 class="text-lg font-semibold">Comments ({{ post.data.comments_count }})</h1>
                 <!-- Barta User Comments Container -->
                 <article

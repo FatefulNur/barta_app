@@ -82,7 +82,7 @@
         <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
             <span class="">{{ created_at }}</span>
             <span class="">•</span>
-            <span>{{ view_count }} views</span>
+            <span>{{ view_count }} view{{ view_count > 1 ? 's' : '' }}</span>
         </div>
 
         <!-- Barta Card Bottom -->

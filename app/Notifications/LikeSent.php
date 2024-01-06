@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Models\Like;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
@@ -30,6 +29,7 @@ class LikeSent extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'user_profile' => auth()->user()->getProfileImage(),
             'message' => auth()->user()->firstName() . " has reacted to your post.",
             'post_id' => $this->like->post_id,
             'created_at' => $this->like->created_at->toFormattedDayDateString(),

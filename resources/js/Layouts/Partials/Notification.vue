@@ -46,15 +46,16 @@
             </template>
 
         </div>
-        <button class="w-full p-2 bg-gray-800 text-white text-sm rounded-md font-semibold">View
-            All</button>
+        <Link :href="route('notifications.index')"
+            class="block w-full p-2 bg-gray-800 text-white text-sm rounded-md font-semibold">View
+        All</Link>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { usePage, router } from '@inertiajs/vue3'
+import { usePage, router, Link } from '@inertiajs/vue3'
 
 const { auth } = usePage().props
 

@@ -6,18 +6,23 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\CommentSent;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, Post $post): RedirectResponse
     {
-        $post->comments()->create([
+        $comment = $post->comments()->create([
             ...$request->validated(),
             'user_id' => $request->user()->id,
         ]);
+
+        $loadedComment = $comment->load(['post:id,user_id', 'post.user:id,name,email']);
+
+        if (!$loadedComment->post->user->isAuthor()) {
+            $loadedComment->post->user->notify(new CommentSent($comment));
+        }
 
         return back()->with('success', 'Comment has been created successfully');
     }

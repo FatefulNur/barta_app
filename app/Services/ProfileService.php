@@ -10,11 +10,10 @@ class ProfileService
 {
     public function update(array $data, $image = null)
     {
-
         return DB::transaction(function () use ($data, $image) {
             $user = auth()->user();
 
-            if ($data['password']) {
+            if (array_key_exists('password', $data) && $data['password'] !== null) {
                 $data['password'] = Hash::make($data['password']);
             } else {
                 $data['password'] = $user->password;

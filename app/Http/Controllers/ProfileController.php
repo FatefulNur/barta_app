@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
-use Illuminate\View\View;
 use App\Services\ProfileService;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
@@ -37,13 +36,16 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function edit(User $user): View
+    public function edit(User $user)
     {
         if ($user->cannot('edit', $user)) {
             abort(403);
         }
 
-        return view('profile.edit', compact('user'));
+        return inertia()->render('Profiles/Edit', [
+            'user' => $user,
+            'profile_image' => $user->getProfileImage(),
+        ]);
     }
 
     public function update(ProfileUpdateRequest $request, ProfileService $profileService): RedirectResponse

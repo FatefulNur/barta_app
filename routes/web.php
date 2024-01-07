@@ -38,4 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/notifications/latest', [NotificationController::class, 'latest'])->name('notifications.latest');
     Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::patch('/notifications/markAllAsRead', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark_all_as_read');
+    Route::delete('/notifications/clear', [NotificationController::class, 'clear'])->name('notifications.clear');
 });

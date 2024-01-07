@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\View\View;
 use App\Services\PostService;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
-    public function __construct(protected PostService $postService)
-    {
-
+    public function __construct(
+        protected PostService $postService,
+    ) {
     }
 
     public function store(StorePostRequest $request): RedirectResponse
@@ -41,14 +41,16 @@ class PostController extends Controller
         ]);
     }
 
-    public function edit(Post $post): View
+    public function edit(Post $post)
     {
         $this->authorize('edit', $post);
 
-        return view('post.edit', compact('post'));
+        return inertia()->render('Posts/Edit', [
+            'post' => $post,
+        ]);
     }
 
-    public function update(StorePostRequest $request, Post $post): RedirectResponse
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
         $this->authorize('update', $post);
 

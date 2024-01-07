@@ -33,9 +33,9 @@ const props = defineProps({
 })
 
 // storing this long logic into a variable cause reference error
-let isLiked = ref(Boolean(props.likes.find(obj => obj.user.id === auth.user.id)?.id))
+let isLiked = ref(Boolean(props.likes?.find(obj => obj.user.id === auth.user.id)?.id))
 let isLikeProcessing = ref(false)
-let likeId = ref(props.likes.find(obj => obj.user.id === auth.user.id)?.id)
+let likeId = ref(props.likes?.find(obj => obj.user.id === auth.user.id)?.id)
 let likesCount = ref(props.likesCount)
 
 const toggleLike = () => {

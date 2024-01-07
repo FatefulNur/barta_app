@@ -3,7 +3,7 @@
         <h5 class="text-2xl font-semibold leading-none text-gray-800 dark:text-white">
             Notifications</h5>
 
-        <div class="space-x-1">
+        <div v-if="notifications.length" class="space-x-1">
             <button @click="clearNotifications"
                 class="border border-gray-800 text-gray-800 px-3 py-1 text-sm rounded-full hover:bg-gray-800 hover:text-white transition-all">Clear
                 all</button>

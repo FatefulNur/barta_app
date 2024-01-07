@@ -49,12 +49,11 @@
                             <div x-show="open" x-on:click.away="open = false"
                                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                                <a :href="route('posts.edit', post.data.id)"
+                                <Link :href="route('posts.edit', post.data.id)"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                    tabindex="-1" id="user-menu-item-0">Edit</a>
-                                <form onsubmit="return confirm('Really wanna delete the post')"
-                                    :action="route('posts.destroy', post.data.id)" method="POST" role="menuitem"
-                                    tabindex="-1" id="user-menu-item-1">
+                                    tabindex="-1" id="user-menu-item-0">Edit</Link>
+                                <form @submit.prevent="deletePost" method="POST" role="menuitem" tabindex="-1"
+                                    id="user-menu-item-1">
 
                                     <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                         type="submit">Delete</button>
@@ -134,7 +133,7 @@
                                     x-data="{ open: false }">
                                     <div class="relative inline-block text-left">
                                         <div>
-                                            <button x-on:click="open = !open" type="button"
+                                            <button x-on:click="open = !open" x-on:click.away="open = false" type="button"
                                                 class="-m-2 flex items-center rounded-full p-2 text-gray-400 hover:text-gray-600"
                                                 id="menu-0-button">
                                                 <span class="sr-only">Open options</span>
@@ -208,7 +207,7 @@ export default {
 import CreateComment from '@/Pages/Posts/Partials/Forms/CreateComment.vue'
 import EditComment from '@/Pages/Posts/Partials/Forms/EditComment.vue'
 
-import { useForm } from '@inertiajs/vue3'
+import { router, Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -219,10 +218,14 @@ const props = defineProps({
 
 let shouldEdit = ref('')
 
-const form = useForm({})
+const deletePost = () => {
+    router.delete(route('posts.destroy', props.post.data.id), {
+        onBefore: () => confirm('Really wanna delete the post'),
+    })
+}
 
 const deleteComment = (commentId) => {
-    form.delete(route('posts.comments.destroy', {
+    router.delete(route('posts.comments.destroy', {
         post: props.post.data.id,
         comment: commentId,
     }), {

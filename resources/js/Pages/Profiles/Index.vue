@@ -58,16 +58,16 @@
         </div>
 
         <!-- Edit Profile Button (Only visible to the profile owner) -->
-        <a v-if="user.data.is_author" :href="route('profile.edit', user.data.id)" type="button"
+        <Link v-if="user.data.is_author" :href="route('profile.edit', user.data.id)" type="button"
             class="-m-2 flex gap-2 items-center rounded-full px-4 py-2 font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-            </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+        </svg>
 
-            Edit Profile
-        </a>
+        Edit Profile
+        </Link>
         <!-- /Edit Profile Button -->
     </section>
 
@@ -99,6 +99,8 @@ export default {
 <script setup>
 import CreatePost from '@/Pages/Posts/Partials/Forms/CreatePost.vue'
 import PostCard from '@/Pages/Posts/Partials/PostCard.vue'
+
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
     user: {

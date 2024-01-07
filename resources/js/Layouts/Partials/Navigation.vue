@@ -4,9 +4,9 @@
             <div class="flex h-16 justify-between">
                 <div class="flex">
                     <div class="flex flex-shrink-0 items-center">
-                        <a :href="route('home')">
-                            <h2 class="font-bold text-2xl">{{ $page.props.app_name }}</h2>
-                        </a>
+                        <Link :href="route('home')">
+                        <h2 class="font-bold text-2xl">{{ $page.props.app_name }}</h2>
+                        </Link>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
                         <!---- Current: "border-gray-800 text-gray-900 font-semibold", Default:
@@ -22,10 +22,9 @@
                 </div>
 
                 <!-- Search Input -->
-                <form :action="route('search')" method="GET" class="flex items-center">
-                    <input type="text" name="q" placeholder="Search..."
-                        class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
-                        :value="$page.props.search_query">
+                <form @submit.prevent="submit" method="GET" class="flex items-center">
+                    <input type="text" name="q" placeholder="Search..." v-model="form.q"
+                        class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
                 </form>
 
                 <!-- Navigation Menu -->
@@ -64,7 +63,7 @@
                     <!-- Profile dropdown -->
                     <div class="relative ml-3" x-data="{ open: false }">
                         <div>
-                            <button x-on:click="open = !open" type="button"
+                            <button x-on:click="open = !open" x-on:click.away="open = false" type="button"
                                 class="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="sr-only">Open user menu</span>
@@ -76,12 +75,12 @@
                         <div x-show="open" x-on:click.away="open = false"
                             class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <a :href="route('profile.index', auth.user.id)"
+                            <Link :href="route('profile.index', auth.user.id)"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                            <a :href="route('profile.edit', auth.user.id)"
+                                tabindex="-1" id="user-menu-item-0">Your Profile</Link>
+                            <Link :href="route('profile.edit', auth.user.id)"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-1">Edit Profile</a>
+                                tabindex="-1" id="user-menu-item-1">Edit Profile</Link>
                             <form :action="route('logout')" method="POST" role="menuitem" tabindex="-1"
                                 id="user-menu-item-2">
                                 <input type="hidden" name="_token" :value="xsrf_token">
@@ -118,9 +117,15 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3'
+import { usePage, Link, useForm } from '@inertiajs/vue3'
 
 import Notification from '@/Layouts/Partials/Notification.vue'
 
 const { auth, auth_user_profile, xsrf_token } = usePage().props
+
+const form = useForm({
+    q: '',
+})
+
+const submit = () => form.get(route('search'))
 </script>

@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submit" method="POST" enctype="multipart/form-data"
-        :class="`bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3${form.errors.body ? ' border-red-500' : ''}`">
+        :class="`bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3${$page.props.errors.body ? ' border-red-500' : ''}`">
         <div>
             <div class="flex items-start /space-x-3/">
                 <!-- User Avatar -->
@@ -95,16 +95,16 @@
         </div>
     </form>
 
-    <template v-if="form.errors">
-        <ul v-for="(error, key) in form.errors" class="!mt-0">
-            <li class="text-sm text-red-600 font-semibold">{{ error }}</li>
+    <template v-if="$page.props.errors">
+        <ul class="!mt-0">
+            <li v-for="(error, key) in $page.props.errors" class="text-sm text-red-600 font-semibold">{{ error }}</li>
         </ul>
     </template>
 </template>
 
 <script setup>
 import Loader from '@/Components/Loader.vue'
-import { usePage, useForm } from '@inertiajs/vue3'
+import { usePage, useForm, router } from '@inertiajs/vue3'
 
 const { auth, auth_user_profile } = usePage().props
 
@@ -116,8 +116,12 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post(route('posts.store'), {
+    router.post(route('posts.store'), {
+        ...form.data(),
+    }, {
+        onBefore: () => form.processing = true,
         onSuccess: () => form.reset(),
+        onFinish: () => form.processing = false,
     })
 }
 </script>

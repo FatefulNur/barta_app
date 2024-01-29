@@ -5,7 +5,7 @@ Barta is a minimal, elegant social media application with beautiful features.
 ## Installation
 Clone the repo
 ```
-    git clone https://github.com/FatefulNur/barta_app.git --single-branch -b assignment-12
+    git clone https://github.com/FatefulNur/barta_app.git --single-branch -b testing
 ```
 
 ## Usage
@@ -59,6 +59,11 @@ Run the following commands:
 - `php artisan queue:work`.
 
 If you are not getting realtime notification update you might miss connecting websocket in [this](http://localhost:8000/laravel-websockets) url or you may forgot to run `php artisan queue:work`.
+
+## Testing
+To run automated test of this application you may run command either:
+- `.\vendor\bin\phpunit` or 
+- `php artisan test`.
 
 ## Greetings
 Thanks for reading.

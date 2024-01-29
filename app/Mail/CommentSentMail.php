@@ -19,6 +19,7 @@ class CommentSentMail extends Mailable implements ShouldQueue
      */
     public function __construct(
         public object $notifiable,
+        public string $commentedBy,
         public Comment $comment,
     ) {
     }
@@ -42,7 +43,7 @@ class CommentSentMail extends Mailable implements ShouldQueue
             markdown: 'mail.comments.sent',
             with: [
                 'user' => $this->notifiable->fullName(),
-                'message' => auth()->user()->firstName() . ' just has commented on your post: ',
+                'message' => $this->commentedBy . ' just has commented on your post: ',
                 'comment' => $this->comment->body,
                 'url' => route('posts.show', $this->comment->post_id) . "#comments",
             ]

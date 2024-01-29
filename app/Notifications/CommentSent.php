@@ -25,7 +25,7 @@ class CommentSent extends Notification
 
     public function toMail(object $notifiable): Mailable
     {
-        return (new CommentSentMail($notifiable, $this->comment))->to($notifiable->email);
+        return (new CommentSentMail($notifiable, auth()->user()->firstName(), $this->comment))->to($notifiable->email);
     }
 
     public function toBroadcast(object $notifiable): BroadcastMessage

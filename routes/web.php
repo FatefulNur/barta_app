@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::resource('posts', PostController::class)->except(['index', 'create']);
-    Route::resource('posts.comments', CommentController::class)->except(['index', 'create', 'show'])->scoped();
+    Route::resource('posts.comments', CommentController::class)->only(['store', 'update', 'destroy'])->scoped();
 
     Route::get('/search', SearchController::class)->name('search');
 
